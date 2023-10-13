@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
-import { response } from "express";
 
 export const MainView = () => {
   const [movies, setMovies] = useState([]);
@@ -9,15 +8,23 @@ export const MainView = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
-    fetch("https://madison24.github.io/movieAPI/")
+    fetch("https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/movies")
       .then((response) => response.json())
       .then((data) => {
-        const moviesFromApi = data.docs.map((doc) => {
+        const moviesFromApi = data.map((movie) => {
           return {
-            id: doc.key,
-            title: doc.title,
-            genre: doc.genre_name?.[0],
-            director: doc.director_name?.[0],
+            _id: movie.id,
+            imagePath: movie.imagePath,
+            Title: movie.Title,
+            Description: movie.Description,
+            Genre: {
+              Name: movie.Genre.Name,
+            },
+            Director: {
+              Name: movie.Director.Name,
+            },
+            Actors: movie.Actors,
+            Featured: movie.Featured.toString(),
           };
         });
 
@@ -41,7 +48,7 @@ export const MainView = () => {
     <div>
       {movies.map((movie) => (
         <MovieCard
-          key={movie.id}
+          key={movie.Title}
           movie={movie}
           onMovieClick={(newSelectedMovie) => {
             setSelectedMovie(newSelectedMovie);
