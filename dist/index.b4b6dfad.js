@@ -27181,7 +27181,7 @@ const MainView = ()=>{
             const moviesFromApi = data.map((movie)=>{
                 return {
                     _id: movie.id,
-                    imagePath: movie.imagePath,
+                    ImagePath: movie.ImagePath,
                     Title: movie.Title,
                     Description: movie.Description,
                     Genre: {
@@ -28214,7 +28214,7 @@ const MovieView = ({ movie, onBackClick })=>{
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                    src: movie.imagePath
+                    src: movie.ImagePath
                 }, void 0, false, {
                     fileName: "src/Components/movie-view/movie-view.jsx",
                     lineNumber: 7,
@@ -28382,7 +28382,7 @@ _c = MovieView;
 //PropType conditions for moviesfromapi
 MovieView.propTypes = {
     movie: (0, _propTypesDefault.default).shape({
-        imagePath: (0, _propTypesDefault.default).string.isRequired,
+        ImagePath: (0, _propTypesDefault.default).string.isRequired,
         Title: (0, _propTypesDefault.default).string.isRequired,
         Description: (0, _propTypesDefault.default).string.isRequired,
         Genre: (0, _propTypesDefault.default).shape({
