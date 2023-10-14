@@ -10,10 +10,13 @@ export const LoginView = () => {
       secret: password,
     };
 
-    fetch("https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/login.json", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
+    fetch(
+      "https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/login.json",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+      }
+    );
   };
 
   return (
