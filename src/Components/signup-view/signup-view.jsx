@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 export const SignupView = () => {
   const [username, setUsername] = useState("");
@@ -40,7 +40,7 @@ export const SignupView = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          minLength={"5"}
+          minLength="5"
         />
       </label>
       <label>
@@ -50,7 +50,7 @@ export const SignupView = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          minLength={"6"}
+          minLength="6"
         />
       </label>
       <label>
