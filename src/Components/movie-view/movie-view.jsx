@@ -1,37 +1,42 @@
 import PropTypes from "prop-types";
+import "./movie-view.scss";
 
 export const MovieView = ({ movie, onBackClick }) => {
   return (
     <div>
       <div>
-        <img src={movie.ImagePath} />
+        <button onClick={onBackClick} className="back-button">
+          Back
+        </button>
       </div>
       <div>
-        <span>Title: </span>
-        <span>{movie.Title}</span>
+        <img src={movie.ImagePath} className="w-100" />
       </div>
-      <div>
-        <span>Description: </span>
-        <span>{movie.Description}</span>
-      </div>
-      <div>
-        <span>Genre: </span>
-        <span>{movie.Genre.Name}</span>
-      </div>
-      <div>
-        <span>Director: </span>
-        <span>{movie.Director.Name}</span>
-      </div>
-      <div>
-        <span>Actors: </span>
-        <span>{movie.Actors}</span>
-      </div>
-      <div>
-        <span>Featured: </span>
-        <span>{movie.Featured}</span>
-      </div>
-      <div>
-        <button onClick={onBackClick}>Back</button>
+      <div className="movieview-paragraph">
+        <div>
+          <span id="Name-element">Title: </span>
+          <span>{movie.Title}</span>
+        </div>
+        <div>
+          <span id="Name-element">Description: </span>
+          <span>{movie.Description}</span>
+        </div>
+        <div>
+          <span id="Name-element">Genre: </span>
+          <span>{movie.Genre.Name}</span>
+        </div>
+        <div>
+          <span id="Name-element">Director: </span>
+          <span>{movie.Director.Name}</span>
+        </div>
+        <div>
+          <span id="Name-element">Actors: </span>
+          <span>{movie.Actors}</span>
+        </div>
+        <div>
+          <span id="Name-element">Featured: </span>
+          <span>{movie.Featured}</span>
+        </div>
       </div>
     </div>
   );
