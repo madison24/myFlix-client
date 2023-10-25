@@ -4,15 +4,10 @@ import "./movie-view.scss";
 
 export const MovieView = ({ movies }) => {
   const { movieId } = useParams();
-  const movie = movies.find((m) => m.id === movieId);
+  const movie = movies.find((movie) => movie._id === movieId);
 
   return (
     <div>
-      <div>
-        <Link to={`/`}>
-          <button className="back-button">Back</button>
-        </Link>
-      </div>
       <div>
         <img src={movie.ImagePath} className="w-100" />
       </div>
@@ -43,9 +38,9 @@ export const MovieView = ({ movies }) => {
         </div>
       </div>
       <div>
-        {/* <Link to={`/login`}>
-          <button className="back-button">Logout</button>
-        </Link> */}
+        <Link to={`/`}>
+          <button className="back-button">Back</button>
+        </Link>
       </div>
     </div>
   );

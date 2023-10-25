@@ -3,6 +3,7 @@ import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
+import { ProfileView } from "../profile-view/profile-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 
 import Row from "react-bootstrap/Row";
@@ -26,24 +27,23 @@ export const MainView = () => {
       return;
     }
     fetch("https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/movies", {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => {
         const moviesFromApi = data.map((movie) => {
           return {
-            id: movie.id,
-            ImagePath: movie.ImagePath,
+            _id: movie._id,
             Title: movie.Title,
             Description: movie.Description,
-            Genre: {
-              Name: movie.Genre.Name,
-            },
-            Director: {
-              Name: movie.Director.Name,
-            },
-            Actors: movie.Actors,
+            Genre: movie.Genre,
+            Director: movie.Director,
+            ImagePath: movie.ImagePath,
             Featured: movie.Featured.toString(),
+            Actors: movie.Actors,
           };
         });
 
@@ -95,7 +95,7 @@ export const MainView = () => {
             }
           />
           <Route
-            path="/movies/:id"
+            path="/movies/:movieId"
             element={
               <>
                 {!user ? (
@@ -121,11 +121,37 @@ export const MainView = () => {
                 ) : (
                   <>
                     {movies.map((movie) => (
-                      <Col className="mb-5" key={movie.id} md={3}>
-                        <MovieCard movie={movie} />
+                      <Col className="mb-5" key={movie._id} md={3}>
+                        <MovieCard movie={movie} user={user} />
                       </Col>
                     ))}
                   </>
+                )}
+              </>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : (
+                  <Col>
+                    <Row>
+                      <ProfileView
+                        user={user}
+                        token={token}
+                        setUser={setUser}
+                        movies={movies}
+                        onDelete={() => {
+                          setUser(null);
+                          setToken(null);
+                          localStorage.clear();
+                        }}
+                      />
+                    </Row>
+                  </Col>
                 )}
               </>
             }
