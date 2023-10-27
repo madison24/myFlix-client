@@ -17,13 +17,17 @@ export const MovieCard = ({ movie, token, setUser, user }) => {
   const addFavMovie = () => {
     fetch(
       `https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/${user.Username}/movies/${movie._id}`,
-      { method: "POST", headers: { Authorization: `Bearer ${token}` } }
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      }
     )
       .then((response) => {
         if (response.ok) {
           return response.json();
         } else {
           alert("Unable to add favorite movie");
+          return false;
         }
       })
       .then((user) => {
@@ -42,13 +46,17 @@ export const MovieCard = ({ movie, token, setUser, user }) => {
   const removeFavMovie = () => {
     fetch(
       "https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/${user.Username/movies/${movie._id}",
-      { method: "DELETE", headers: { Authorization: `Bearer ${token}` } }
+      {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      }
     )
       .then((response) => {
         if (response.ok) {
           return response.json();
         } else {
           alert("Unable to delete");
+          return false;
         }
       })
       .then((user) => {
@@ -75,11 +83,11 @@ export const MovieCard = ({ movie, token, setUser, user }) => {
         <Card.Body>
           {!isFavorite ? (
             <Button variant="link" onClick={addFavMovie}>
-              +
+              Add to favorite movies
             </Button>
           ) : (
             <Button variant="link" onClick={removeFavMovie}>
-              -
+              Remove from favorite movies
             </Button>
           )}
         </Card.Body>
