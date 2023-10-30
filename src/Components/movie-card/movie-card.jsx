@@ -73,24 +73,28 @@ export const MovieCard = ({ movie, token, setUser, user }) => {
   };
 
   return (
-    <Card>
-      <Card.Img variant="top" src={movie.ImagePath} />
+    <Card id="moviecard">
       <Card.Body>
-        <Card.Title>{movie.Title}</Card.Title>
         <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
-          <Button> See more</Button>
+          <Card.Img src={movie.ImagePath}></Card.Img>
         </Link>
-        <Card.Body>
-          {!isFavorite ? (
-            <Button variant="link" onClick={addFavMovie}>
-              Add to favorite movies
-            </Button>
-          ) : (
-            <Button variant="link" onClick={removeFavMovie}>
-              Remove from favorite movies
-            </Button>
-          )}
-        </Card.Body>
+
+        {!isFavorite ? (
+          <button className="addfav" onClick={addFavMovie}>
+            &#9734;
+          </button>
+        ) : (
+          <button className="addfav" onClick={addFavMovie}>
+            &#9733;
+          </button>
+        )}
+        <Link
+          id="moviecard-text"
+          to={`/movies/${encodeURIComponent(movie._id)}`}
+        >
+          <Card.Title>{movie.Title}</Card.Title>
+        </Link>
+        <Card.Text>{movie.Genre.Name}</Card.Text>
       </Card.Body>
     </Card>
   );
@@ -101,5 +105,6 @@ MovieCard.propTypes = {
   movie: PropTypes.shape({
     Title: PropTypes.string.isRequired,
     ImagePath: PropTypes.string.isRequired,
+    Genre: PropTypes.string.isRequired,
   }).isRequired,
 };

@@ -9,6 +9,11 @@ export const MovieView = ({ movies }) => {
   return (
     <div>
       <div>
+        <Link to={`/`}>
+          <button className="back-button">Back</button>
+        </Link>
+      </div>
+      <div>
         <img src={movie.ImagePath} className="w-100" />
       </div>
       <div className="movieview-paragraph">
@@ -36,11 +41,6 @@ export const MovieView = ({ movies }) => {
           <span id="Name-element">Featured: </span>
           <span>{movie.Featured}</span>
         </div>
-      </div>
-      <div>
-        <Link to={`/`}>
-          <button className="back-button">Back</button>
-        </Link>
       </div>
     </div>
   );

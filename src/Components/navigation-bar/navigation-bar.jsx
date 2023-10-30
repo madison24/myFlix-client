@@ -5,7 +5,7 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
   return (
     <Navbar expand="lg">
       <Container>
-        <Navbar.Brand as={Link} to="/">
+        <Navbar.Brand as={Link} id="brand" to="/">
           myFlix
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

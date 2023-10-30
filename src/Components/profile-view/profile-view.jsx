@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-// import ".profile-view.scss";
+import "./profile-view.scss";
 
 export const ProfileView = ({ user, token, setUser, movies }) => {
   const [Username, setUsername] = useState(user.Username);
@@ -75,28 +75,12 @@ export const ProfileView = ({ user, token, setUser, movies }) => {
 
   return (
     <Container>
-      <Row className="justify-content-md-center">
-        <h2>Favorite Movies</h2>
-        {favMov.map((movie) => {
-          return (
-            <Col key={movie._id} className="m-3">
-              <MovieCard
-                movie={movie}
-                token={token}
-                setUser={setUser}
-                user={user}
-              ></MovieCard>
-            </Col>
-          );
-        })}
-      </Row>
-
       <Row className="justify-content-center">
         <Col md={8}>
-          <h2>Update User Information</h2>
+          <h2 id="profile-header">Update User Information</h2>
           <Form onSubmit={handleUpdate}>
             <Form.Group controlId="formUsername">
-              <Form.Label>Username:</Form.Label>
+              <Form.Label id="user-info">Username:</Form.Label>
               <Form.Control
                 type="text"
                 value={Username}
@@ -106,7 +90,7 @@ export const ProfileView = ({ user, token, setUser, movies }) => {
             </Form.Group>
 
             <Form.Group controlId="formPassword">
-              <Form.Label>Password:</Form.Label>
+              <Form.Label id="user-info">Password:</Form.Label>
               <Form.Control
                 type="Password"
                 value={Password}
@@ -116,7 +100,7 @@ export const ProfileView = ({ user, token, setUser, movies }) => {
             </Form.Group>
 
             <Form.Group controlId="formEmail">
-              <Form.Label>Email:</Form.Label>
+              <Form.Label id="user-info">Email:</Form.Label>
               <Form.Control
                 type="Email"
                 value={Email}
@@ -126,7 +110,7 @@ export const ProfileView = ({ user, token, setUser, movies }) => {
             </Form.Group>
 
             <Form.Group controlId="formBirthday">
-              <Form.Label>Birthday:</Form.Label>
+              <Form.Label id="user-info">Birthday:</Form.Label>
               <Form.Control
                 type="Date"
                 value={Birthday}
@@ -135,12 +119,31 @@ export const ProfileView = ({ user, token, setUser, movies }) => {
               />
             </Form.Group>
 
-            <Button type="submit" onClick={handleUpdate}>
+            <Button type="submit" id="update-button" onClick={handleUpdate}>
               Update
             </Button>
-            <Button onClick={handleDelete}>Delete Account</Button>
+            <div />
+            <Button id="delete-button" onClick={handleDelete}>
+              Delete Account
+            </Button>
           </Form>
         </Col>
+      </Row>
+
+      <Row className="justify-content-center">
+        <h2 id="profile-header">Favorite Movies</h2>
+        {favMov.map((movie) => {
+          return (
+            <Col md={8} key={movie._id}>
+              <MovieCard
+                movie={movie}
+                token={token}
+                setUser={setUser}
+                user={user}
+              ></MovieCard>
+            </Col>
+          );
+        })}
       </Row>
     </Container>
   );
