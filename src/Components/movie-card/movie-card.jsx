@@ -84,7 +84,7 @@ export const MovieCard = ({ movie, token, setUser, user }) => {
             &#9734;
           </button>
         ) : (
-          <button className="addfav" onClick={addFavMovie}>
+          <button className="addfav" onClick={removeFavMovie}>
             &#9733;
           </button>
         )}

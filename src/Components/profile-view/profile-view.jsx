@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import "./profile-view.scss";
@@ -9,6 +9,7 @@ export const ProfileView = ({ user, token, setUser, movies }) => {
   const [Email, setEmail] = useState(user.Email);
   const [Birthday, setBirthday] = useState(user.Birthday);
 
+  // const [favMov, setFavMov] = useState(user.favMov);
   const favMov = user.favoriteMovies
     ? movies.filter((movie) => user.favoriteMovies.includes(movie._id))
     : [];
@@ -22,6 +23,12 @@ export const ProfileView = ({ user, token, setUser, movies }) => {
       Email: Email,
       Birthday: Birthday,
     };
+
+    useEffect(() => {
+      if (user.favoriteMovies.includes(favMov)) {
+        favMov(true);
+      }
+    }, [user]);
 
     fetch(
       "https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/${user.Username}",

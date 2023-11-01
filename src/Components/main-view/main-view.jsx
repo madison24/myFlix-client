@@ -20,6 +20,7 @@ export const MainView = () => {
   const [token, setToken] = useState(storedToken ? storedToken : null);
 
   const [movies, setMovies] = useState([]);
+  const [isFavorite, setIsFavorite] = useState([]);
   // const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
@@ -87,6 +88,7 @@ export const MainView = () => {
                       onLoggedIn={(user, token) => {
                         setUser(user);
                         setToken(token);
+                        setIsFavorite(isFavorite);
                       }}
                     />
                   </Col>
