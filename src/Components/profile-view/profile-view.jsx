@@ -9,10 +9,44 @@ export const ProfileView = ({ user, token, setUser, movies }) => {
   const [Email, setEmail] = useState(user.Email);
   const [Birthday, setBirthday] = useState(user.Birthday);
 
-  // const [favMov, setFavMov] = useState(user.favMov);
-  const favMov = user.favoriteMovies
-    ? movies.filter((movie) => user.favoriteMovies.includes(movie._id))
-    : [];
+  const [user, setUser] = useState({});
+
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
+
+  useEffect(() => {
+    fetch(
+      `https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/${localStorage.getItem(
+        "Username"
+      )}`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      }
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        console.log(response);
+
+        // const y = response.find(
+        //   (x) => x.Username == localStorage.getItem("Username")
+        // );
+        setUser({ ...response });
+        console.log(y);
+        const favMov = user.FavoriteMovies
+          ? movies.filter((movie) => user.FavoriteMovies.includes(movie._id))
+          : [];
+
+        let favoriteMovies = movies.filter((movie) =>
+          user.FavoriteMovies.includes(movie._id)
+        );
+        setFavoriteMovies(favMov);
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  }, [user]);
 
   const handleUpdate = (event) => {
     event.preventDefault();
@@ -23,12 +57,6 @@ export const ProfileView = ({ user, token, setUser, movies }) => {
       Email: Email,
       Birthday: Birthday,
     };
-
-    useEffect(() => {
-      if (user.favoriteMovies.includes(favMov)) {
-        favMov(true);
-      }
-    }, [user]);
 
     fetch(
       "https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/${user.Username}",
@@ -139,7 +167,7 @@ export const ProfileView = ({ user, token, setUser, movies }) => {
 
       <Row className="justify-content-center">
         <h2 id="profile-header">Favorite Movies</h2>
-        {favMov.map((movie) => {
+        {favoriteMovies.map((movie) => {
           return (
             <Col md={8} key={movie._id}>
               <MovieCard
