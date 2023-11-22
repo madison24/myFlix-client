@@ -1,38 +1,44 @@
 // import the PropTypes Library
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 // The moviecard function component
 export const MovieCard = ({ movie, token, setUser, user }) => {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedToken = localStorage.getItem("token");
+
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    if (user.favoriteMovies && user.favoriteMovies.includes(movie._id)) {
+    if (user.FavoriteMovies && user.FavoriteMovies.includes(movie._id)) {
       setIsFavorite(true);
     }
   }, [user]);
 
-  const addFavMovie = () => {
+  const addFavoriteMovie = () => {
     fetch(
-      `https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/${user.Username}/movies/${movie._id}`,
+      `https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/${storedUser.Username}/movies/${movie._id}`,
       {
         method: "POST",
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${storedToken}`,
+        },
       }
     )
       .then((response) => {
         if (response.ok) {
           return response.json();
         } else {
-          alert("Unable to add favorite movie");
-          return false;
+          console.log("Failed to add fav movie");
         }
       })
       .then((user) => {
         if (user) {
-          alert("Added to favorites");
+          alert("successfully added to favorites");
           localStorage.setItem("user", JSON.stringify(user));
           setUser(user);
           setIsFavorite(true);
@@ -43,25 +49,27 @@ export const MovieCard = ({ movie, token, setUser, user }) => {
       });
   };
 
-  const removeFavMovie = () => {
+  const removeFavoriteMovie = () => {
     fetch(
-      "https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/${user.Username/movies/${movie._id}",
+      `https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/${storedUser.Username}/movies/${movie._id}`,
       {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${storedToken}`,
+        },
       }
     )
       .then((response) => {
         if (response.ok) {
           return response.json();
         } else {
-          alert("Unable to delete");
-          return false;
+          alert("Failed");
         }
       })
       .then((user) => {
         if (user) {
-          alert("Deleted from favorites");
+          alert("successfully deleted from favorites");
           localStorage.setItem("user", JSON.stringify(user));
           setUser(user);
           setIsFavorite(false);
@@ -78,23 +86,21 @@ export const MovieCard = ({ movie, token, setUser, user }) => {
         <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
           <Card.Img src={movie.ImagePath}></Card.Img>
         </Link>
-
-        {!isFavorite ? (
-          <button className="addfav" onClick={addFavMovie}>
-            &#9734;
-          </button>
-        ) : (
-          <button className="addfav" onClick={removeFavMovie}>
-            &#9733;
-          </button>
-        )}
         <Link
           id="moviecard-text"
           to={`/movies/${encodeURIComponent(movie._id)}`}
         >
           <Card.Title>{movie.Title}</Card.Title>
         </Link>
-        <Card.Text>{movie.Genre.Name}</Card.Text>
+        <Card.Text>{movie.GenreName}</Card.Text>
+
+        <Card.Body>
+          {!isFavorite ? (
+            <Button onClick={addFavoriteMovie}>Add to favorites</Button>
+          ) : (
+            <Button onClick={removeFavoriteMovie}>Remove favorite</Button>
+          )}
+        </Card.Body>
       </Card.Body>
     </Card>
   );

@@ -1,116 +1,104 @@
-import { useState, useEffect } from "react";
-import { MovieCard } from "../movie-card/movie-card";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 import "./profile-view.scss";
 
-export const ProfileView = ({ user, token, setUser, movies }) => {
-  const [Username, setUsername] = useState(user.Username);
-  const [Password, setPassword] = useState(user.Password);
-  const [Email, setEmail] = useState(user.Email);
-  const [Birthday, setBirthday] = useState(user.Birthday);
+import { MovieCard } from "../movie-card/movie-card";
 
-  const favMov = user.favoriteMovies
-    ? movies.filter((movie) => user.favoriteMovies.includes(movie._id))
+export const ProfileView = ({
+  user,
+  onDelete,
+  movie,
+  token,
+  setUser,
+  movies,
+}) => {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedToken = localStorage.getItem("token");
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [birthday, setBirthday] = useState("");
+
+  const favMov = storedUser.FavoriteMovies
+    ? movies.filter((movie) => storedUser.FavoriteMovies.includes(movie._id))
     : [];
+  console.log(favMov);
+  console.log(movies);
+  console.log(storedUser);
 
-  const [user, setUser] = useState({});
-
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
-
-  // useEffect(() => {
-  //   fetch(
-  //     `https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/${localStorage.getItem(
-  //       "Username"
-  //     )}`,
-  //     {
-  //       method: "GET",
-  //       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-  //     }
-  //   )
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((response) => {
-  //       console.log(response);
-
-  //       // const y = response.find(
-  //       //   (x) => x.Username == localStorage.getItem("Username")
-  //       // );
-  //       setUser({ ...response });
-  //       console.log(y);
-  //       const favMov = user.FavoriteMovies
-  //         ? movies.filter((movie) => user.FavoriteMovies.includes(movie._id))
-  //         : [];
-
-  //       let favoriteMovies = movies.filter((movie) =>
-  //         user.FavoriteMovies.includes(movie._id)
-  //       );
-  //       setFavoriteMovies(favMov);
-  //     })
-  //     .catch((error) => {
-  //       alert(error);
-  //     });
-  // }, [user]);
-
-  useEffect(() => {
-    if (user.favoriteMovies.includes(favMov)) {
-      favMov(true);
-    }
-  }, [user]);
-
-  const handleUpdate = (event) => {
+  const updateUser = (event) => {
     event.preventDefault();
 
-    const data = {
-      Username: Username,
-      Password: Password,
-      Email: Email,
-      Birthday: Birthday,
+    const inputData = {
+      Username: username,
+      Password: password,
+      Email: email,
+      Birthday: birthday,
     };
+    console.log("inputData: ", inputData);
 
     fetch(
-      "https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/${user.Username}",
+      `https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/${storedUser.Username}`,
       {
         method: "PUT",
-        body: JSON.stringify(data),
+        body: JSON.stringify(inputData),
         headers: {
+          Authorization: `Bearer ${storedToken}`,
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-      .then(async (response) => {
-        console.log(response);
-        if (response.ok) {
-          alert("Update successful");
-        } else {
-          const e = await response.text();
-          console.log(e);
-          alert("Update failed.");
-        }
-      })
-      .then((updatedUser) => {
-        if (updatedUser) {
-          localStorage.setItem("user", JSON.stringify(updatedUser));
-          setUser(updatedUser);
-        }
-      });
-  };
-
-  const handleDelete = () => {
-    fetch(
-      "https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/${user.Username}",
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
         },
       }
     ).then((response) => {
       if (response.ok) {
-        setUser(null);
+        alert("User updated");
+        console.log("User updated: ", inputData);
+        fetchUpdatedUser(inputData.Username);
+      } else {
+        alert("Unable to update user");
+      }
+    });
+  };
+
+  const fetchUpdatedUser = (newUsername) => {
+    fetch(
+      `https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/${newUsername}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data) {
+          localStorage.setItem("user", JSON.stringify(data));
+          console.log("Local storage updated: ", data);
+          window.location.reload();
+        } else {
+          alert("Unable to update local storage");
+        }
+      });
+  };
+
+  const deleteAccount = () => {
+    fetch(
+      `https://myflixmovies-api-16e0c1ad8aff.herokuapp.com/users/${storedUser.Username}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      }
+    ).then((response) => {
+      if (response.ok) {
+        onDelete();
         localStorage.clear();
-        alert("Account has been deleted");
+        alert("Account deleted");
         window.location.replace("/signup");
       } else {
         alert("Unable to delete account");
@@ -119,78 +107,104 @@ export const ProfileView = ({ user, token, setUser, movies }) => {
   };
 
   return (
-    <Container>
-      <Row className="justify-content-center">
-        <Col md={8}>
-          <h2 id="profile-header">Update User Information</h2>
-          <Form onSubmit={handleUpdate}>
+    <Col>
+      <Row>
+        <Col>
+          <Row>
+            {" "}
+            {/* Display user information */}
+            <h3 id="profile-header">User Profile</h3>
+            <div>
+              <span>Username: </span>
+              <span>{storedUser.Username}</span>
+            </div>
+            <div>
+              <span>Email: </span>
+              <span>{storedUser.Email}</span>
+            </div>
+            <div>
+              <span>Date of Birth: </span>
+              <span>{storedUser.Birthday.slice(0, 10)}</span>
+            </div>
+          </Row>
+        </Col>
+        <Col>
+          {" "}
+          {/* Update user info */}
+          <h3 id="profile-header">Update User Information</h3>
+          <Form onSubmit={updateUser}>
             <Form.Group controlId="formUsername">
-              <Form.Label id="user-info">Username:</Form.Label>
+              <Form.Label id="user-info">Username: </Form.Label>
               <Form.Control
                 type="text"
-                value={Username}
+                placeholder="Username"
+                value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
+                minLength="5"
               />
             </Form.Group>
 
             <Form.Group controlId="formPassword">
-              <Form.Label id="user-info">Password:</Form.Label>
+              <Form.Label id="user-info">Password: </Form.Label>
               <Form.Control
-                type="Password"
-                value={Password}
+                type="password"
+                placeholder="Password"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </Form.Group>
 
             <Form.Group controlId="formEmail">
-              <Form.Label id="user-info">Email:</Form.Label>
+              <Form.Label id="user-info">Email: </Form.Label>
               <Form.Control
-                type="Email"
-                value={Email}
+                type="email"
+                placeholder="Email"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </Form.Group>
 
-            <Form.Group controlId="formBirthday">
-              <Form.Label id="user-info">Birthday:</Form.Label>
+            <Form.Group controlId="formBirthDate">
+              <Form.Label id="user-info">Birthday: </Form.Label>
               <Form.Control
-                type="Date"
-                value={Birthday}
+                type="date"
+                value={birthday}
                 onChange={(e) => setBirthday(e.target.value)}
                 required
               />
             </Form.Group>
 
-            <Button type="submit" id="update-button" onClick={handleUpdate}>
+            <Button id="update-button" type="submit">
               Update
             </Button>
-            <div />
-            <Button id="delete-button" onClick={handleDelete}>
+
+            <Button id="delete-button" type="submit" onClick={deleteAccount}>
               Delete Account
             </Button>
           </Form>
         </Col>
       </Row>
-
-      <Row className="justify-content-center">
-        <h2 id="profile-header">Favorite Movies</h2>
-        {/* {favoriteMovies.map((movie) => { */}
-        {favMov.map((movie) => {
-          return (
-            <Col md={8} key={movie._id}>
-              <MovieCard
-                movie={movie}
-                token={token}
-                setUser={setUser}
-                user={user}
-              ></MovieCard>
-            </Col>
-          );
-        })}
+      <Row>
+        {" "}
+        <h3 id="profile-header">Favorite Movies</h3>
+        <>
+          {favMov.map((movie) => {
+            return (
+              <Col key={movie._id} md={3}>
+                <MovieCard
+                  movie={movie}
+                  token={token}
+                  setUser={setUser}
+                  user={user}
+                />
+              </Col>
+            );
+          })}
+        </>
       </Row>
-    </Container>
+    </Col>
   );
 };

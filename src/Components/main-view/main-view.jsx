@@ -13,15 +13,13 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 export const MainView = () => {
   // use whatever is in localstorage as the default value of user and token states
-  const storedUser = localStorage.getItem("user");
+  const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
 
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
 
   const [movies, setMovies] = useState([]);
-  const [isFavorite, setIsFavorite] = useState([]);
-  // const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
     if (!token) {
@@ -88,7 +86,6 @@ export const MainView = () => {
                       onLoggedIn={(user, token) => {
                         setUser(user);
                         setToken(token);
-                        setIsFavorite(isFavorite);
                       }}
                     />
                   </Col>
@@ -128,6 +125,7 @@ export const MainView = () => {
                           movie={movie}
                           user={user}
                           setUser={setUser}
+                          // addToFavorites={addToFavorites}
                         />
                       </Col>
                     ))}
