@@ -1,10 +1,17 @@
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import "./movie-view.scss";
+import { Card } from "react-bootstrap";
+// import { MovieCard } from "../movie-card/movie-card";
 
 export const MovieView = ({ movies }) => {
   const { movieId } = useParams();
   const movie = movies.find((movie) => movie._id === movieId);
+
+  const similarMovies = (genreName) =>
+    movies.filter(
+      (movie) => movie.Genre.Name == genreName && movie._id !== movieId
+    );
 
   return (
     <div>
@@ -14,7 +21,7 @@ export const MovieView = ({ movies }) => {
         </Link>
       </div>
       <div>
-        <img src={movie.ImagePath} className="w-100" />
+        <Card.Img src={movie.ImagePath}></Card.Img>
       </div>
       <div className="movieview-paragraph">
         <div>
@@ -40,6 +47,16 @@ export const MovieView = ({ movies }) => {
         <div>
           <span id="Name-element">Featured: </span>
           <span>{movie.Featured}</span>
+        </div>
+        <div>
+          <span>Similar Movies: </span>
+          <span>
+            {similarMovies(movie.Genre.Name).map((movie) => (
+              <Link id="link-style" to={`/movies/${movie._id}`}>
+                <img src={movie.ImagePath} alt="" />
+              </Link>
+            ))}
+          </span>
         </div>
       </div>
     </div>
