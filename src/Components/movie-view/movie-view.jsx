@@ -1,7 +1,8 @@
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import "./movie-view.scss";
-import { Card } from "react-bootstrap";
+import { Col } from "react-bootstrap";
+
 // import { MovieCard } from "../movie-card/movie-card";
 
 export const MovieView = ({ movies }) => {
@@ -21,7 +22,7 @@ export const MovieView = ({ movies }) => {
         </Link>
       </div>
       <div>
-        <Card.Img src={movie.ImagePath}></Card.Img>
+        <img src={movie.ImagePath} className="movie-image" />
       </div>
       <div className="movieview-paragraph">
         <div>
@@ -49,14 +50,16 @@ export const MovieView = ({ movies }) => {
           <span>{movie.Featured}</span>
         </div>
         <div>
-          <span>Similar Movies: </span>
-          <span>
-            {similarMovies(movie.Genre.Name).map((movie) => (
-              <Link id="link-style" to={`/movies/${movie._id}`}>
-                <img src={movie.ImagePath} alt="" />
-              </Link>
-            ))}
-          </span>
+          <div id="Name-element">Similar Movies: </div>
+          <Col className="mb-" md={3}>
+            <span>
+              {similarMovies(movie.Genre.Name).map((movie) => (
+                <Link id="link-style" to={`/movies/${movie._id}`}>
+                  <img src={movie.ImagePath} alt="" className="similar-movie" />
+                </Link>
+              ))}
+            </span>
+          </Col>
         </div>
       </div>
     </div>
