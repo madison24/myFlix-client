@@ -1,0 +1,28 @@
+.movie-img {
+  height: 330px;
+  width: 200px;
+}
+#moviecard {
+  border: none;
+  color: rgb(25, 21, 49);
+}
+#moviecard-text {
+  color: whitesmoke;
+  text-decoration: none;
+}
+
+.addfave {
+  color: tomato;
+  border: none;
+}
+
+.removefave {
+  fill: tomato;
+  border: none;
+}
+
+.removefave,
+.addfave {
+  margin-left: 210px;
+  margin-top: 10px;
+}

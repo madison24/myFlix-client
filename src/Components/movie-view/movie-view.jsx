@@ -1,7 +1,10 @@
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import "./movie-view.scss";
-import { Card } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
 // import { MovieCard } from "../movie-card/movie-card";
 
 export const MovieView = ({ movies }) => {
@@ -14,52 +17,55 @@ export const MovieView = ({ movies }) => {
     );
 
   return (
-    <div>
-      <div>
+    <Container>
+      <Row>
         <Link to={`/`}>
           <button className="back-button">Back</button>
         </Link>
-      </div>
-      <div>
-        <Card.Img src={movie.ImagePath}></Card.Img>
-      </div>
-      <div className="movieview-paragraph">
-        <div>
-          <span id="Name-element">Title: </span>
-          <span>{movie.Title}</span>
-        </div>
-        <div>
-          <span id="Name-element">Description: </span>
-          <span>{movie.Description}</span>
-        </div>
-        <div>
-          <span id="Name-element">Genre: </span>
-          <span>{movie.Genre.Name}</span>
-        </div>
-        <div>
-          <span id="Name-element">Director: </span>
-          <span>{movie.Director.Name}</span>
-        </div>
-        <div>
-          <span id="Name-element">Actors: </span>
-          <span>{movie.Actors}</span>
-        </div>
-        <div>
-          <span id="Name-element">Featured: </span>
-          <span>{movie.Featured}</span>
-        </div>
-        <div>
-          <span>Similar Movies: </span>
+      </Row>
+      <Row>
+        <Col>
+          <img className="view-image" src={movie.ImagePath}></img>
+        </Col>
+        <Col>
+          <Col className="movieview-paragraph">
+            <span>
+              <h1 className="title">{movie.Title}</h1>
+            </span>
+            <span>
+              <h2 id="Name-element">Description: </h2>
+              <p>{movie.Description}</p>
+            </span>
+            <span>
+              <h2 id="Name-element">Genre: </h2>
+              <p>{movie.Genre.Name}</p>
+            </span>
+            <span>
+              <h2 id="Name-element">Director: </h2>
+              <p>{movie.Director.Name}</p>
+            </span>
+            <span>
+              <h2 id="Name-element">Actors: </h2>
+              <p>{movie.Actors}</p>
+            </span>
+          </Col>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
           <span>
-            {similarMovies(movie.Genre.Name).map((movie) => (
-              <Link id="link-style" to={`/movies/${movie._id}`}>
-                <img src={movie.ImagePath} alt="" />
-              </Link>
-            ))}
+            <h3 className="similar-title">Similar Movies: </h3>
+            <span>
+              {similarMovies(movie.Genre.Name).map((movie) => (
+                <Link id="link-style" to={`/movies/${movie._id}`}>
+                  <img className="similar-movie" src={movie.ImagePath} alt="" />
+                </Link>
+              ))}
+            </span>
           </span>
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

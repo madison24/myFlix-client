@@ -35,27 +35,4 @@ $font-family-base: Oswald;
   background-color: darkslateblue;
 }
 
-.movieview-paragraph {
-  color: whitesmoke;
-  background-color: rgb(25, 21, 49);
-  margin-top: 10px;
-  padding: 10px;
-  font-size: 18px;
-}
-
-#moviecard {
-  border: none;
-  color: rgb(25, 21, 49);
-}
-#moviecard-text {
-  color: whitesmoke;
-  text-decoration: none;
-}
-.addfav {
-  background-color: darkslateblue;
-  color: tomato;
-  border: none;
-  margin-left: 90%;
-}
-
 @import "~bootstrap/scss/bootstrap.scss";

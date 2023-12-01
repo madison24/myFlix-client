@@ -7,7 +7,34 @@
   border-radius: 4px;
 }
 
+.view-image {
+  width: 350px;
+}
+
+.title {
+  font-weight: bold;
+  color: whitesmoke;
+}
+
 #Name-element {
   font-weight: bold;
   font-size: 20px;
+  color: whitesmoke;
+}
+.movieview-paragraph {
+  color: rgb(25, 21, 49);
+  padding: 20px;
+  font-size: 18px;
+  height: inherit;
+}
+
+.similar-movie {
+  margin: 10px 10px;
+  height: 210px;
+  width: 150px;
+}
+.similar-title {
+  color: rgb(25, 21, 49);
+  margin-top: 15px;
+  margin-bottom: 15px;
 }

@@ -1,9 +1,11 @@
 // import the PropTypes Library
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Card } from "react-bootstrap";
+import { Card, CardBody } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Button from "react-bootstrap/Button";
+import { FaStar } from "react-icons/fa";
+import { FaRegStar } from "react-icons/fa";
+import "./movie-card.scss";
 
 // The moviecard function component
 export const MovieCard = ({ movie, token, setUser, user }) => {
@@ -84,23 +86,23 @@ export const MovieCard = ({ movie, token, setUser, user }) => {
     <Card id="moviecard">
       <Card.Body>
         <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
-          <Card.Img src={movie.ImagePath}></Card.Img>
+          <Card.Img className="movie-img" src={movie.ImagePath}></Card.Img>
         </Link>
+        <span>
+          {" "}
+          {!isFavorite ? (
+            <FaRegStar className="addfave" onClick={addFavoriteMovie} />
+          ) : (
+            <FaStar className="removefave" onClick={removeFavoriteMovie} />
+          )}
+        </span>
         <Link
           id="moviecard-text"
           to={`/movies/${encodeURIComponent(movie._id)}`}
         >
           <Card.Title>{movie.Title}</Card.Title>
         </Link>
-        <Card.Text>{movie.GenreName}</Card.Text>
-
-        <Card.Body>
-          {!isFavorite ? (
-            <Button onClick={addFavoriteMovie}>Add to favorites</Button>
-          ) : (
-            <Button onClick={removeFavoriteMovie}>Remove favorite</Button>
-          )}
-        </Card.Body>
+        <Card.Text>{movie.Genre.Name}</Card.Text>
       </Card.Body>
     </Card>
   );
