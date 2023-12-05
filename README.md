@@ -6,9 +6,9 @@ A movie app built using React  based on existing server-side code I created prev
 ## Features 
 myFlix is a movie app that allows users to create a profile in order to:
 
-- View movies from an api (created in movie_api)
+- View movies from an api 
 - Search movies by title
-- Add or remove movies to favorites
+- Add a movie to or remove from favorites
 - Select a movie to view more info such as a brief description, the genre, the director, actors, and similar movies (movies in the same genre)
 - Update or delete profile
 
