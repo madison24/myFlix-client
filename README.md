@@ -1,7 +1,7 @@
 # myFlix app
 
 ## Objective
-A movie app built using React  based on its existing server-side code movieApi [https://.com/madison24/movieAPI]
+A movie app built using React  based on its existing server-side code movieApi (https://.com/madison24/movieAPI)[https://.com/madison24/movieAPI]
 
 ## Features 
 myFlix is a movie app that allows users to create a profile in order to:
