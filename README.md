@@ -1,8 +1,7 @@
 # myFlix app
 
 ## Objective
-Using React, build the client-side for an app called myFlix based on its
-existing server-side code movieApi(https://github.com/madison24/movieAPI)
+A movie app built using React  based on its existing server-side code movieApi (https://.com/madison24/movieAPI)
 
 ## Features 
 myFlix is a movie app that allows users to create a profile in order to:
@@ -13,6 +12,23 @@ myFlix is a movie app that allows users to create a profile in order to:
 - Select a movie to view more info such as a brief description, the genre, the director, actors, and similar movies (movies in the same genre)
 - Update or delete profile
 
+## Technology used 
+MERN stack: 
+- MongoDB
+- Express
+- React
+- Node.js
+
+Dependencies:
+- Bootstrap
+- Parcel
+- Proptypes
+- React
+- React, including
+    - Bootstrap
+    - Dom
+    - Router
+    - Router-dom
 
 
 
