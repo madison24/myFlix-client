@@ -30,8 +30,5 @@ Dependencies:
     - Router
     - Router-dom
 
+Access myFlix-client using Parcel: parcel src/index.html then use browser to navigate to localhost:1234
 
-
-
-Test myFlix-client using Parcel: parcel [Path to index.html]. Make sure to use the actual path to “index.html” instead of [Path to index.html] (relative to the current directory you’re inside).
-For example: parcel src/index.html
