@@ -32,3 +32,6 @@ Dependencies:
 
 Access myFlix-client using Parcel: parcel src/index.html then use browser to navigate to localhost:1234
 
+## Link to live app
+[https://myflixmovies-app.netlify.app/](https://myflixmovies-app.netlify.app/)
+
