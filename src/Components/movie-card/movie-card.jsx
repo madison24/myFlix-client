@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Card, CardBody } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { Button } from "bootstrap";
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import "./movie-card.scss";
@@ -40,7 +41,7 @@ export const MovieCard = ({ movie, token, setUser, user }) => {
       })
       .then((user) => {
         if (user) {
-          alert("successfully added to favorites");
+          console.log("successfully added to favorites");
           localStorage.setItem("user", JSON.stringify(user));
           setUser(user);
           setIsFavorite(true);
@@ -71,7 +72,7 @@ export const MovieCard = ({ movie, token, setUser, user }) => {
       })
       .then((user) => {
         if (user) {
-          alert("successfully deleted from favorites");
+          console.log("successfully deleted from favorites");
           localStorage.setItem("user", JSON.stringify(user));
           setUser(user);
           setIsFavorite(false);
