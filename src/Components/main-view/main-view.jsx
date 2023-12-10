@@ -16,6 +16,7 @@ export const MainView = () => {
 
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
+  const [movies, setMovies] = useState([]);
 
   // search all movies
   const handleSearch = (search) => {
@@ -27,15 +28,23 @@ export const MainView = () => {
   };
 
   // filter by genre
-  const [movies, setMovies] = useState([]);
-  const [filterGenre, setFilterGenre] = useState("");
+  const [filteredGenre, setFilteredGenre] = useState([...movies]);
 
-  const allGenres = [];
-  movies.forEach((movie) => {
-    if (allGenres.indexOf(movie.Genre.Name) === -1) {
-      allGenres.push(movie.Genre.Name);
-    }
-  });
+  const handleGenreFilter = (e) => {
+    const genre = e.target.value;
+
+    const newMovies = movies.filter((movie) => {
+      if (movie.Genre.Name === genre) {
+        return movie;
+      } else {
+        if (genre === "") {
+          return movie;
+        }
+      }
+    });
+    setFilteredGenre(newMovies);
+    console.log(filteredGenre);
+  };
 
   useEffect(() => {
     if (!token) {
@@ -139,22 +148,20 @@ export const MainView = () => {
                       <Col className="mb-4" md={6}>
                         <SearchBar onSearch={handleSearch} />
                       </Col>
-
-                      <Col className="mb-5" md={3}>
-                        <Form.Select
-                          onChange={(e) => setFilterGenre(e.target.value)}
-                          value={filterGenre}
-                          className="genre"
-                        >
-                          <option value="">Genre</option>
-                          {allGenres.map((Genre) => (
-                            <option key={Genre} value={Genre}>
-                              {Genre}
-                            </option>
-                          ))}
-                        </Form.Select>
-                      </Col>
                     </Row>
+                    <Col className="mb-5" md={3}>
+                      <Form.Select onChange={handleGenreFilter}>
+                        <option value="" selected>
+                          Genre
+                        </option>
+                        <option value={"Comedy"}>Comedy</option>
+                        <option value={"Animation"}>Animation</option>
+                        <option value={"Thriller"}>Thriller</option>
+                        <option value={"Historical Romance"}>
+                          Historical Romance
+                        </option>
+                      </Form.Select>
+                    </Col>
 
                     {movies.map((movie) => (
                       <Col className="mb-5" key={movie._id} md={3}>
