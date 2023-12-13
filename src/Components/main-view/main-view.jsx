@@ -5,10 +5,8 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { ProfileView } from "../profile-view/profile-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
-
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-// import Button from "react-bootstrap/Button";
+import { SearchBar } from "../search-bar/search-bar";
+import { Row, Col, Form } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 export const MainView = () => {
@@ -18,8 +16,35 @@ export const MainView = () => {
 
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
-
   const [movies, setMovies] = useState([]);
+
+  // search all movies
+  const handleSearch = (search) => {
+    const filteredMovies = movies.filter((movie) =>
+      movie.Title.toLowerCase().includes(search.toLowerCase())
+    );
+    setMovies(filteredMovies);
+  };
+
+  // filter by genre
+  const [filteredGenre, setFilteredGenre] = useState([...movies]);
+
+  const handleGenreFilter = (e) => {
+    const genre = e.target.value;
+
+    const newMovies = movies.filter((movie) => {
+      if (movie.Genre.Name === genre) {
+        return movie;
+      } else {
+        if (genre === "all") {
+          return movie;
+        }
+      }
+    });
+
+    setFilteredGenre(newMovies);
+    console.log(filteredGenre);
+  };
 
   useEffect(() => {
     if (!token) {
@@ -47,6 +72,8 @@ export const MainView = () => {
         });
 
         setMovies(moviesFromApi);
+
+        setFilteredGenre(moviesFromApi);
       });
   }, [token]);
 
@@ -119,7 +146,26 @@ export const MainView = () => {
                   <Col>The list is empty!</Col>
                 ) : (
                   <>
-                    {movies.map((movie) => (
+                    <Row>
+                      <Col className="mb-4" md={6}>
+                        <SearchBar onSearch={handleSearch} />
+                      </Col>
+
+                      <Col className="mb-5" md={3}>
+                        <Form.Select onChange={handleGenreFilter}>
+                          <option value="all" selected>
+                            All genres
+                          </option>
+                          <option value={"Comedy"}>Comedy</option>
+                          <option value={"Animated"}>Animated</option>
+                          <option value={"Thriller"}>Thriller</option>
+                          <option value={"Historical Romance"}>
+                            Historical Romance
+                          </option>
+                        </Form.Select>
+                      </Col>
+                    </Row>
+                    {filteredGenre.map((movie) => (
                       <Col className="mb-5" key={movie._id} md={3}>
                         <MovieCard
                           movie={movie}

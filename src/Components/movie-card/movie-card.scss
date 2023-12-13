@@ -5,6 +5,8 @@
 #moviecard {
   border: none;
   color: rgb(25, 21, 49);
+  max-width: 250px;
+  min-width: 200px;
 }
 #moviecard-text {
   color: whitesmoke;
@@ -25,10 +27,10 @@
 .addfave {
   margin-left: 90%;
   margin-top: 10px;
+  cursor: pointer;
 }
 
-// @media only screen and (min-width: 120px) {
-//   .movie-img {
-//     width: 200px;
-//   }
-// }
+.removefave,
+.addfave:active {
+  transform: scale(0.9);
+}

@@ -6,6 +6,8 @@
 #moviecard {
   color: #191531;
   border: none;
+  min-width: 200px;
+  max-width: 250px;
 }
 
 #moviecard-text {
@@ -24,8 +26,13 @@
 }
 
 .removefave, .addfave {
+  cursor: pointer;
   margin-top: 10px;
   margin-left: 90%;
+}
+
+.removefave, .addfave:active {
+  transform: scale(.9);
 }
 
 .back-button {
