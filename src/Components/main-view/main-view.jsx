@@ -23,7 +23,6 @@ export const MainView = () => {
     const filteredMovies = movies.filter((movie) =>
       movie.Title.toLowerCase().includes(search.toLowerCase())
     );
-
     setMovies(filteredMovies);
   };
 
@@ -37,11 +36,12 @@ export const MainView = () => {
       if (movie.Genre.Name === genre) {
         return movie;
       } else {
-        if (genre === "") {
+        if (genre === "all") {
           return movie;
         }
       }
     });
+
     setFilteredGenre(newMovies);
     console.log(filteredGenre);
   };
@@ -72,6 +72,8 @@ export const MainView = () => {
         });
 
         setMovies(moviesFromApi);
+
+        setFilteredGenre(moviesFromApi);
       });
   }, [token]);
 
@@ -148,22 +150,22 @@ export const MainView = () => {
                       <Col className="mb-4" md={6}>
                         <SearchBar onSearch={handleSearch} />
                       </Col>
-                    </Row>
-                    <Col className="mb-5" md={3}>
-                      <Form.Select onChange={handleGenreFilter}>
-                        <option value="" selected>
-                          Genre
-                        </option>
-                        <option value={"Comedy"}>Comedy</option>
-                        <option value={"Animation"}>Animation</option>
-                        <option value={"Thriller"}>Thriller</option>
-                        <option value={"Historical Romance"}>
-                          Historical Romance
-                        </option>
-                      </Form.Select>
-                    </Col>
 
-                    {movies.map((movie) => (
+                      <Col className="mb-5" md={3}>
+                        <Form.Select onChange={handleGenreFilter}>
+                          <option value="all" selected>
+                            All genres
+                          </option>
+                          <option value={"Comedy"}>Comedy</option>
+                          <option value={"Animated"}>Animated</option>
+                          <option value={"Thriller"}>Thriller</option>
+                          <option value={"Historical Romance"}>
+                            Historical Romance
+                          </option>
+                        </Form.Select>
+                      </Col>
+                    </Row>
+                    {filteredGenre.map((movie) => (
                       <Col className="mb-5" key={movie._id} md={3}>
                         <MovieCard
                           movie={movie}

@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Card, CardBody } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { Button } from "bootstrap";
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import "./movie-card.scss";
