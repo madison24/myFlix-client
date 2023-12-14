@@ -14,9 +14,11 @@ export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
 
+  const [movies, setMovies] = useState([]);
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
-  const [movies, setMovies] = useState([]);
+
+  const [filteredGenre, setFilteredGenre] = useState([...movies]);
 
   // search all movies
   const handleSearch = (search) => {
@@ -24,10 +26,10 @@ export const MainView = () => {
       movie.Title.toLowerCase().includes(search.toLowerCase())
     );
     setMovies(filteredMovies);
+    setFilteredGenre(filteredMovies);
   };
 
   // filter by genre
-  const [filteredGenre, setFilteredGenre] = useState([...movies]);
 
   const handleGenreFilter = (e) => {
     const genre = e.target.value;
@@ -36,7 +38,7 @@ export const MainView = () => {
       if (movie.Genre.Name === genre) {
         return movie;
       } else {
-        if (genre === "all") {
+        if (genre === "") {
           return movie;
         }
       }
@@ -72,7 +74,6 @@ export const MainView = () => {
         });
 
         setMovies(moviesFromApi);
-
         setFilteredGenre(moviesFromApi);
       });
   }, [token]);
@@ -153,7 +154,7 @@ export const MainView = () => {
 
                       <Col className="mb-5" md={3}>
                         <Form.Select onChange={handleGenreFilter}>
-                          <option value="all" selected>
+                          <option value="" selected>
                             All genres
                           </option>
                           <option value={"Comedy"}>Comedy</option>
@@ -171,6 +172,7 @@ export const MainView = () => {
                           movie={movie}
                           user={user}
                           setUser={setUser}
+
                           // addToFavorites={addToFavorites}
                         />
                       </Col>
