@@ -12,6 +12,16 @@ myFlix is a movie app that allows users to create a profile in order to:
 - Select a movie to view more info such as a brief description, the genre, the director, actors, and similar movies (movies in the same genre)
 - Update or delete profile
 
+## Visualization
+### Main View
+![screenshot of the project](./images/mainview.png)
+
+### Movie View with similar movies
+![screenshot of the project](./images/moviecard.png)
+
+### Profile view, with users favorite movies
+![screenshot of the project](./images/profile.png)
+
 ## Technology used 
 MERN stack: 
 - MongoDB
